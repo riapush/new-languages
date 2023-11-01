@@ -18,6 +18,8 @@ async fn handle_client(stream: &mut TcpStream) {
     let mut buf = [0; 1024];
     let mut message = String::new();
 
+    stream.write_all(b"\nWrite your message and press enter: ").await.unwrap();
+
     loop {
         match stream.read(&mut buf).await {
             Ok(n) => {
@@ -30,6 +32,7 @@ async fn handle_client(stream: &mut TcpStream) {
                     print!("Received message: {}", message);
                     stream.write_all(b"Message received
 ").await.unwrap();
+                    stream.write_all(b"\nWrite your message and press enter: ").await.unwrap();
                     message.clear();
                 }
 
